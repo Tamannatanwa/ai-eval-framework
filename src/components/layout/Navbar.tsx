@@ -10,10 +10,14 @@ import {
   LogOut,
   UserCircle2,
 } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+
 
   // Replace this with actual user data from your auth context or session
   const user = {
@@ -30,6 +34,8 @@ const Navbar = () => {
 
   const handleLogout = () => {
     console.log("Logout clicked");
+      router.push("/login");
+
     // Your logout logic here (e.g., signOut() or router.push('/login'))
   };
 
@@ -37,12 +43,12 @@ const Navbar = () => {
     <nav className="bg-gray-800 text-white px-6 py-4 shadow-md">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo */}
-        <Link href="/dashboard" className="text-2xl font-bold">
-          Logo
-        </Link>
-
-        {/* Desktop Nav */}
         <div className="hidden md:flex items-center space-x-6">
+          <Link href="/dashboard" className="text-2xl font-bold">
+            <Image src="/favicon.ico"
+              alt="Logo" width={40} height={40} />
+          </Link>
+
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             const Icon = item.icon;
@@ -50,15 +56,18 @@ const Navbar = () => {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center px-3 py-2 rounded hover:bg-gray-600 transition-colors ${
-                  isActive ? "bg-gray-700 font-bold" : ""
-                }`}
+                className={`flex items-center px-3 py-2 rounded hover:bg-gray-600 transition-colors ${isActive ? "bg-gray-700 font-bold" : ""
+                  }`}
               >
                 <Icon className="w-5 h-5 mr-1" />
                 {item.label}
               </Link>
             );
           })}
+        </div>
+
+        {/* Desktop Nav */}
+        <div className="hidden md:flex items-center space-x-6">
 
           {/* User Section */}
           <div className="ml-8 flex items-center space-x-3 relative group">
@@ -124,9 +133,8 @@ const Navbar = () => {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center px-3 py-2 rounded hover:bg-gray-600 transition-colors ${
-                  isActive ? "bg-gray-600 font-bold" : ""
-                }`}
+                className={`flex items-center px-3 py-2 rounded hover:bg-gray-600 transition-colors ${isActive ? "bg-gray-600 font-bold" : ""
+                  }`}
               >
                 <Icon className="w-5 h-5 mr-2" />
                 {item.label}
